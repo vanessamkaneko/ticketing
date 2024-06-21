@@ -1,37 +1,25 @@
+import buildClient from "../api/build-client";
 import axios from 'axios';
 
 const LandingPage = ({ currentUser }) => {
-  console.log(currentUser);
-  // executada no browser
-  axios.get('/api/users/currentuser').catch((err) => {
-    console.log(err.message);
-  });
- 
-  return <h1>Landing Page</h1>;
+  return currentUser ? <h1>You are signed in</h1> : <h1>You are NOT signed in</h1>;
+  // se currentUser estiver definido: you are... | senão: you are NOT...
 };
 
-LandingPage.getInitialProps = async ({ req }) => {
-   console.log(req.headers)
-  if (typeof window === 'undefined') {
-    // estamos no SERVER! (objeto window só existe no browser, não existe no node.js) -> console.log aparece no terminal...
-    // requests devem ser feitas para http://ingress-nginx-controller.ingress-nginx.svc.cluster.local...
-    const { data } = await axios.get(
-      'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser', 
-      {
-        headers: req.headers
-      }
-    )
-    return data;
-  } else {
-    // estamos no BROWSER! console.log aparece no inspecionar...
-    // requests podem ser feitas com um url base '' (ex: /api/users/currentuser')
-    const { data } = await axios.get('/api/users/currentuser');
-    return data;
-    /* espera-se que a response receba um obj. com a propriedade currentUser: se logado, terá um obj. com as credenciais; 
-    não logado, recebe null*/
 
-  }
+/* p/ termos a informação se o usuário está logado ou não já na landing page! essa informação inicial só é possível obter 
+pela getInitialProps. Dentro de um Page Component, o context do getInitialProps é igual a { req, res } (retorna */
+LandingPage.getInitialProps = async context => {
+  console.log('LANDING PAGE!')
+  console.log(context)
+  const client = buildClient(context)
+  // recebe a URL pronta (http://ingress-nginx....) c/ os headers p/ se fazer a requisição c/ o método que precisar (no caso será get)
 
+  const { data } = await client.get('/api/users/currentuser');
+  // pega os dados dessa rota (no caso, o id, email, headers (que tem os cookies...) do usuário logado) 
+
+  return data;
+  // dados irão como parâmetro diretamente p/ a função da LandingPage
 }
 
 export default LandingPage;
