@@ -8,10 +8,10 @@ const LandingPage = ({ currentUser }) => {
 
 
 /* p/ termos a informação se o usuário está logado ou não já na landing page! essa informação inicial só é possível obter 
-pela getInitialProps. Dentro de um Page Component, o context do getInitialProps é igual a { req, res } (retorna */
+pela getInitialProps. Dentro de um Page Component, o context do getInitialProps é a requisiçaõ, na qual tem o req dentro  */
 LandingPage.getInitialProps = async context => {
   console.log('LANDING PAGE!')
-  console.log(context)
+  // console.log(context) -> (retorna todo o header)
   const client = buildClient(context)
   // recebe a URL pronta (http://ingress-nginx....) c/ os headers p/ se fazer a requisição c/ o método que precisar (no caso será get)
 
