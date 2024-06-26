@@ -72,7 +72,7 @@ export { User };
 EX: const user = new User({email: 'teste@teste.com, password: 'jk3jfk'}) -> no caso agora fazemos isso com o User.build({})
 console.log(user); -> { email: '...', password: '...', createdAt: '...', 'updatedAt: '...'}
 --- > Implementando a interface 3, garantimos que somente o email e password serão retornados, restringindo acesso às props.
-não especificadas. Caso queira dar acesso a outras props., adicioná-la na interface UserDoc
+não especificadas. Caso queira dar acesso/criar outras props. no futuro, adicioná-la na interface UserDoc
 
 const user = User.build({
   email: 'teste@test.com',

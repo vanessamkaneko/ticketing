@@ -4,6 +4,9 @@ import { json } from 'body-parser'; // basicamente: converte body da requisiçã
 import cookieSession from 'cookie-session';
 import { errorHandler, NotFoundError, currentUser } from '@vmktickets/common';
 import { createTicketRouter } from './routes/new';
+import { showTicketRouter } from './routes/show';
+import { findAllTicketsRouter } from './routes';
+import { updateTicketRouter } from './routes/update';
 
 const app = express();
 app.set('trust proxy', true);
@@ -23,6 +26,9 @@ app.use(
 app.use(currentUser);
 
 app.use(createTicketRouter);
+app.use(showTicketRouter);
+app.use(findAllTicketsRouter)
+app.use(updateTicketRouter)
 
 app.all('*', async (req, res) => {
   throw new NotFoundError();
