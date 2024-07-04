@@ -10,6 +10,9 @@ declare global {
   var signin: () => string[];
 }
 
+jest.mock('../nats-wrapper') /*dizendo ao jest o caminho do arquivo original que queremos fazer um fake (o fake precisa ter o mesmo nome do original pois é c/ base nele
+que o doc será executado na pasta __mocks__) -> fazendo conexão fake c/ o nats p/ realizar testes */
+
 // função que irá rodar antes de todos os testes serem executados
 let mongo: any;
 beforeAll(async () => {
@@ -23,6 +26,7 @@ beforeAll(async () => {
 
 // irá rodar antes de cada teste
 beforeEach(async () => {
+  jest.clearAllMocks();
   const collections = await mongoose.connection.db.collections(); // nos dá todas as coleções que existem no database
 
   for (let collection of collections) { // irá fazer o loop em toda as coleções e deletar todos os dados de dentro deles (resetar todos os dados)
