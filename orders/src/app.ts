@@ -3,10 +3,10 @@ import 'express-async-errors';
 import { json } from 'body-parser'; // basicamente: converte body da requisição em json
 import cookieSession from 'cookie-session';
 import { errorHandler, NotFoundError, currentUser } from '@vmktickets/common';
-import { createTicketRouter } from './routes/new';
-import { showTicketRouter } from './routes/show';
-import { findAllTicketsRouter } from './routes';
-import { updateTicketRouter } from './routes/update';
+import { deleteOrderRouter } from './routes/delete';
+import { indexOrderRouter } from './routes';
+import { newOrderRouter } from './routes/new';
+import { showOrderRouter } from './routes/show';
 
 const app = express();
 app.set('trust proxy', true);
@@ -25,10 +25,10 @@ app.use(
 )
 app.use(currentUser);
 
-app.use(createTicketRouter);
-app.use(showTicketRouter);
-app.use(findAllTicketsRouter)
-app.use(updateTicketRouter)
+app.use(indexOrderRouter);
+app.use(newOrderRouter);
+app.use(showOrderRouter)
+app.use(deleteOrderRouter)
 
 app.all('*', async (req, res) => {
   throw new NotFoundError();
