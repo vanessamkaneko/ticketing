@@ -44,3 +44,12 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: vanessavmk/expiration
+      context: expiration
+      docker:
+        dockerfile: Dockerfile
+        noCache: true
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .

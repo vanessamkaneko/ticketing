@@ -26,8 +26,8 @@ const setup = async () => {
     userId: 'dsfs',
     expiresAt: 'kajfjs',
     ticket: {
-        id: ticket.id,
-        price: ticket.price
+      id: ticket.id,
+      price: ticket.price
     }
   }
 
@@ -58,12 +58,16 @@ it('acks the message', async () => {
 
 it('publishes a ticket updated event', async () => {
   const { listener, ticket, data, msg } = await setup();
+  //console.log(data)
 
   await listener.onMessage(data, msg);
 
   expect(natsWrapper.client.publish).toHaveBeenCalled();
 
+  //console.log((natsWrapper.client.publish as jest.Mock).mock)
   const ticketUpdatedData = JSON.parse((natsWrapper.client.publish as jest.Mock).mock.calls[0][1]);
+  
+  console.log(ticketUpdatedData)
 
   expect(data.id).toEqual(ticketUpdatedData.orderId)
 })
