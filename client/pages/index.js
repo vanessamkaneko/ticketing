@@ -1,4 +1,3 @@
-import buildClient from "../api/build-client";
 import axios from 'axios';
 
 const LandingPage = ({ currentUser }) => {
@@ -9,17 +8,8 @@ const LandingPage = ({ currentUser }) => {
 
 /* p/ termos a informação se o usuário está logado ou não já na landing page! essa informação inicial só é possível obter 
 pela getInitialProps. Dentro de um Page Component, o context do getInitialProps é a requisiçaõ, na qual tem o req dentro  */
-LandingPage.getInitialProps = async context => {
-  console.log('LANDING PAGE!')
-  // console.log(context) -> (retorna todo o header)
-  const client = buildClient(context)
-  // recebe a URL pronta (http://ingress-nginx....) c/ os headers p/ se fazer a requisição c/ o método que precisar (no caso será get)
-
-  const { data } = await client.get('/api/users/currentuser');
-  // pega os dados dessa rota (no caso, o id, email, headers (que tem os cookies...) do usuário logado) 
-
-  return data;
-  // dados irão como parâmetro diretamente p/ a função da LandingPage
+LandingPage.getInitialProps = async (context, client, currentUser) => {
+  return {}
 }
 
 export default LandingPage;

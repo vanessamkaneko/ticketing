@@ -13,6 +13,8 @@ declare global {
 jest.mock('../nats-wrapper') /*dizendo ao jest o caminho do arquivo original que queremos fazer um fake (o fake precisa ter o mesmo nome do original pois é c/ base nele
 que o doc será executado na pasta __mocks__) -> fazendo conexão fake c/ o nats p/ realizar testes */
 
+process.env.STRIPE_KEY = 'sk_test_51PcdlPRx3ZYGNmJBqxGqxTx5HWuzFpo99hRSBAwjyuCpgBabfaKipk1S8xiokJYStC9uyI4XBirtE9YvOkssvqXk00GY62a61L'
+
 // função que irá rodar antes de todos os testes serem executados
 let mongo: any;
 beforeAll(async () => {

@@ -6,7 +6,9 @@ const AppComponent = ({ Component, pageProps, currentUser }) => {
   return (
     <div>
       <Header currentUser={currentUser}/>
-      <Component {...pageProps} />
+      <div className="container">
+        <Component currentUser={currentUser} {...pageProps} />
+      </div>
     </div>
   );
 }
@@ -19,7 +21,7 @@ AppComponent.getInitialProps = async appContext => {
   let pageProps = {};
   // se o appContext.(...) existir, o pageProps receberá tal valor...
   if(appContext.Component.getInitialProps) {
-    pageProps = await appContext.Component.getInitialProps(appContext.ctx); /* aqui é invocada o getInitialProps da Landing Page -> 
+    pageProps = await appContext.Component.getInitialProps(appContext.ctx, client, data.currentUser); /* aqui é invocada o getInitialProps da Landing Page -> 
     s/ essa etapa, apenas o getInitialProps do App Component era executado, o da Landing Page não. Portanto, assim é que executamos o
     getInitialProps e recebemos as infos de páginas individuais 
     
