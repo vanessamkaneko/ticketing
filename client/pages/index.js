@@ -1,20 +1,46 @@
-import axios from 'axios';
+import Link from 'next/link';
 
-const LandingPage = ({ currentUser }) => {
-  return currentUser ? <h1>You are signed in</h1> : <h1>You are NOT signed in</h1>;
-  // se currentUser estiver definido: you are... | senão: you are NOT...
+const LandingPage = ({ currentUser, tickets }) => {
+  const ticketList = tickets.map((ticket) => {
+    return (
+      <tr key={ticket.id}>
+        <td>{ticket.title}</td>
+        <td>{ticket.price}</td>
+        <td>
+          <Link href="/tickets/[ticketId]" as={`/tickets/${ticket.id}`}>
+            View
+          </Link>
+        </td>
+      </tr>
+    );
+  });
+
+  return (
+    <div>
+      <h1>Tickets</h1>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Link</th>
+          </tr>
+        </thead>
+        <tbody>{ticketList}</tbody>
+      </table>
+    </div>
+  );
 };
 
-
 /* p/ termos a informação se o usuário está logado ou não já na landing page! essa informação inicial só é possível obter 
-pela getInitialProps. Dentro de um Page Component, o context do getInitialProps é a requisiçaõ, na qual tem o req dentro  */
+pela getInitialProps. Dentro de um Page Component, o context do getInitialProps é a requisição, na qual tem o req dentro  */
 LandingPage.getInitialProps = async (context, client, currentUser) => {
-  return {}
-}
+  const { data } = await client.get('/api/tickets');
+
+  return { tickets: data };
+};
 
 export default LandingPage;
-
-
 
 
 
